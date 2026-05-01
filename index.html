@@ -1178,9 +1178,9 @@ renderSidebar();
 <!-- ══ Firebase SDK (loaded at runtime — replace config below) ══ -->
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut }
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { getFirestore, doc, setDoc, getDoc, collection, getDocs, deleteDoc }
+import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, deleteDoc }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 // ─────────────────────────────────────────────────────────────────
@@ -1212,18 +1212,26 @@ if (firebaseConfig.apiKey === 'REPLACE_PLACEHOLDER_ONLY') {
 
   // Expose to global scope for persist/delete helpers above
   window.WP_DB      = db;
-  window.WP_FS      = { doc, setDoc, getDoc, collection, getDocs, deleteDoc };
+  window.WP_FS      = { doc, setDoc, getDoc, collection, onSnapshot, deleteDoc };
   window.WP_AUTH_FNS = { getAuth, signOut };
 
   // Google sign-in
   const provider = new GoogleAuthProvider();
   window.WP_TRIGGER_LOGIN = async () => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     try {
-      await signInWithPopup(auth, provider);
+      if (isMobile) {
+        await signInWithRedirect(auth, provider); // redirect works better on mobile
+      } else {
+        await signInWithPopup(auth, provider);
+      }
     } catch(e) {
       if (e.code !== 'auth/popup-closed-by-user') alert('Sign in failed: ' + e.message);
     }
   };
+
+  // Handle redirect result when returning from Google login on mobile
+  getRedirectResult(auth).catch(e => console.error('Redirect result error:', e));
 
   // Auth state listener
   onAuthStateChanged(auth, async (user) => {
@@ -1239,25 +1247,46 @@ if (firebaseConfig.apiKey === 'REPLACE_PLACEHOLDER_ONLY') {
         av.title = user.displayName || user.email;
       }
 
-      // Load tags
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
-      if (userDoc.exists() && userDoc.data().tags) {
-        S.tags = userDoc.data().tags;
-      }
-
-      // Load events
-      const evSnap = await getDocs(collection(db, 'users', user.uid, 'events'));
-      S.events = evSnap.docs.map(d => d.data());
-
       // Hide login screen, show app
       const ls = document.getElementById('loginScreen');
       if (ls) ls.style.display = 'none';
+
+      // Listen to USER DOC realtime (tags live here)
+      if (window._userUnsubscribe) window._userUnsubscribe();
+      window._userUnsubscribe = onSnapshot(
+        doc(db, 'users', user.uid),
+        (snap) => {
+          if (snap.exists() && snap.data().tags) {
+            S.tags = snap.data().tags;
+            renderSidebar();
+            if (S.view === 'month') renderMonth();
+            else renderWeek(S.wkDates);
+          }
+        }
+      );
+
+      // Listen to EVENTS realtime
+      if (window._evUnsubscribe) window._evUnsubscribe();
+      window._evUnsubscribe = onSnapshot(
+        collection(db, 'users', user.uid, 'events'),
+        (snap) => {
+          S.events = snap.docs.map(d => d.data());
+          if (S.view === 'month') renderMonth();
+          else renderWeek(S.wkDates);
+          renderSidebar();
+        },
+        (err) => console.error('Firestore sync error:', err)
+      );
 
       renderMonth();
       renderSidebar();
     } else {
       window.WP_USER = null;
       window.WP_UID  = null;
+      // Stop realtime listeners
+      if (window._evUnsubscribe) { window._evUnsubscribe(); window._evUnsubscribe = null; }
+      if (window._userUnsubscribe) { window._userUnsubscribe(); window._userUnsubscribe = null; }
+      S.events = [];
       // Show login screen
       const ls = document.getElementById('loginScreen');
       if (ls) ls.style.display = 'flex';
