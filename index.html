@@ -653,6 +653,10 @@ textarea.finput { resize:none;min-height:66px;line-height:1.5; }
     </svg>
     Week
   </button>
+  <button class="bn-item" onclick="showProfile()">
+    <div id="bnAvatar" style="width:26px;height:26px;border-radius:50%;background:#9ca3af;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;">?</div>
+    Profile
+  </button>
 </nav>
 
 <!-- Add/Edit modal -->
@@ -1240,12 +1244,11 @@ if (firebaseConfig.apiKey === 'REPLACE_PLACEHOLDER_ONLY') {
       window.WP_UID  = user.uid;
 
       // Update avatar
+      const initial = user.displayName ? user.displayName[0].toUpperCase() : user.email[0].toUpperCase();
       const av = document.getElementById('avatarEl');
-      if (av) {
-        av.textContent = user.displayName ? user.displayName[0].toUpperCase() : user.email[0].toUpperCase();
-        av.style.background = '#3b82f6';
-        av.title = user.displayName || user.email;
-      }
+      if (av) { av.textContent = initial; av.style.background = '#3b82f6'; av.title = user.displayName || user.email; }
+      const bnAv = document.getElementById('bnAvatar');
+      if (bnAv) { bnAv.textContent = initial; bnAv.style.background = '#3b82f6'; }
 
       // Hide login screen, show app
       const ls = document.getElementById('loginScreen');
@@ -1292,6 +1295,8 @@ if (firebaseConfig.apiKey === 'REPLACE_PLACEHOLDER_ONLY') {
       if (ls) ls.style.display = 'flex';
       const av = document.getElementById('avatarEl');
       if (av) { av.textContent = '?'; av.style.background = '#9ca3af'; av.title = 'Sign in'; }
+      const bnAv = document.getElementById('bnAvatar');
+      if (bnAv) { bnAv.textContent = '?'; bnAv.style.background = '#9ca3af'; }
     }
   });
 }
