@@ -316,11 +316,11 @@ textarea.finput { resize:none;min-height:66px;line-height:1.5; }
 
   /* Topbar compact */
   .topbar {
-    padding:0 14px;
-    height:48px;
-    position:sticky;
-    top:0;
-    z-index:60;
+    padding: 0 14px;
+    height: 48px;
+    position: sticky;
+    top: 0;
+    z-index: 60;
   }
   .tb-title { font-size:13px; }
   .tb-period { min-width:80px; font-size:11px; }
@@ -397,14 +397,26 @@ textarea.finput { resize:none;min-height:66px;line-height:1.5; }
 
   /* ── Bottom nav bar ── */
   .bottom-nav {
-    display:flex;
-    position:fixed;
-    bottom:0; left:0; right:0;
-    height:56px;
-    background:var(--surface);
-    border-top:1px solid var(--border);
-    z-index:60;
-    padding-bottom:env(safe-area-inset-bottom);
+    display: flex;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    z-index: 60;
+    /* Extend background into iPhone home indicator area */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    /* Height of actual nav buttons */
+    padding-top: 4px;
+    /* Ensure background covers behind home indicator */
+    box-shadow: 0 -1px 0 var(--border);
+  }
+  .bottom-nav::after {
+    content: '';
+    position: absolute;
+    bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
+    left: 0; right: 0;
+    height: env(safe-area-inset-bottom, 0px);
+    background: var(--surface);
   }
   .bn-item {
     flex:1;
@@ -449,9 +461,23 @@ textarea.finput { resize:none;min-height:66px;line-height:1.5; }
   }
 }
 
-/* Hide bottom nav on desktop */
+/* Desktop: hide bottom nav, hide topbar avatar */
 @media(min-width:701px){
   .bottom-nav { display:none; }
+  .tb-avatar-btn { display:none; }
+}
+
+/* Mobile: show topbar avatar, style it */
+@media(max-width:700px){
+  .tb-avatar-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
 /* ── Login screen ── */
@@ -606,6 +632,10 @@ textarea.finput { resize:none;min-height:66px;line-height:1.5; }
         <button onclick="navNext()">&#8250;</button>
       </div>
       <button class="tb-today" onclick="goToday()">Today</button>
+      <!-- Avatar in topbar — shown on mobile only -->
+      <button class="tb-avatar-btn" id="tbAvatarBtn" onclick="showProfile()">
+        <div id="tbAvatar" style="width:30px;height:30px;border-radius:50%;background:#9ca3af;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid var(--border);">?</div>
+      </button>
     </div>
   </div>
 
@@ -652,10 +682,6 @@ textarea.finput { resize:none;min-height:66px;line-height:1.5; }
       <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
     </svg>
     Week
-  </button>
-  <button class="bn-item" onclick="showProfile()">
-    <div id="bnAvatar" style="width:26px;height:26px;border-radius:50%;background:#9ca3af;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;">?</div>
-    Profile
   </button>
 </nav>
 
@@ -1247,8 +1273,8 @@ if (firebaseConfig.apiKey === 'REPLACE_PLACEHOLDER_ONLY') {
       const initial = user.displayName ? user.displayName[0].toUpperCase() : user.email[0].toUpperCase();
       const av = document.getElementById('avatarEl');
       if (av) { av.textContent = initial; av.style.background = '#3b82f6'; av.title = user.displayName || user.email; }
-      const bnAv = document.getElementById('bnAvatar');
-      if (bnAv) { bnAv.textContent = initial; bnAv.style.background = '#3b82f6'; }
+      const tbAv = document.getElementById('tbAvatar');
+      if (tbAv) { tbAv.textContent = initial; tbAv.style.background = '#3b82f6'; tbAv.style.borderColor = '#3b82f6'; }
 
       // Hide login screen, show app
       const ls = document.getElementById('loginScreen');
@@ -1295,8 +1321,8 @@ if (firebaseConfig.apiKey === 'REPLACE_PLACEHOLDER_ONLY') {
       if (ls) ls.style.display = 'flex';
       const av = document.getElementById('avatarEl');
       if (av) { av.textContent = '?'; av.style.background = '#9ca3af'; av.title = 'Sign in'; }
-      const bnAv = document.getElementById('bnAvatar');
-      if (bnAv) { bnAv.textContent = '?'; bnAv.style.background = '#9ca3af'; }
+      const tbAv = document.getElementById('tbAvatar');
+      if (tbAv) { tbAv.textContent = '?'; tbAv.style.background = '#9ca3af'; tbAv.style.borderColor = 'var(--border)'; }
     }
   });
 }
