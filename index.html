@@ -125,6 +125,19 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 .wk-tags { display:flex;flex-wrap:wrap;gap:4px;padding:7px 16px;border-top:1px solid var(--border-light);background:var(--bg); }
 .tag-pill { font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px; }
 
+/* ── Current-week indicator dot ── */
+.wk-now-dot {
+  width:7px; height:7px; border-radius:50%;
+  background:var(--sat); flex-shrink:0;
+  box-shadow: 0 0 0 2px #dbeafe;
+}
+/* ── Current-week row highlight ── */
+.wk-row.wk-current { border-color:#bfdbfe; }
+.wk-row.wk-current .wk-row-hdr { background:#eff6ff; }
+/* ── Past-week dimming ── */
+.wk-row.wk-past { opacity:.45; filter:grayscale(.3); }
+.wk-row.wk-past .wk-row-hdr:hover { background:var(--bg); }
+
 /* ══ WEEK VIEW ══ */
 .week-view {
   display: flex;
@@ -880,11 +893,21 @@ function renderMonth() {
 
   if (!wks.length) { document.getElementById('weeksList').innerHTML='<div style="padding:40px;color:var(--t3);text-align:center">No weekends this month</div>'; renderSidebar(); return; }
 
+  // Determine which week contains today (for highlighting & scroll)
+  const todayWkSat = d0(TODAY);
+  { const dow = TODAY.getDay(); if(dow===0) todayWkSat.setDate(TODAY.getDate()-1); else todayWkSat.setDate(TODAY.getDate()+(6-dow)); }
+
   document.getElementById('weeksList').innerHTML = wks.map(({days, sat, sun, n}) => {
     const visDays = days.filter(day => dayType(day)!=='wd' || evOn(day).length>0);
     const allEvs=[]; days.forEach(day=>evOn(day).forEach(ev=>allEvs.push(ev)));
     const tot=allEvs.length;
     const tagsHere=[...new Set(allEvs.map(e=>e.tid).filter(Boolean))].map(id=>S.tags.find(t=>t.id===id)).filter(Boolean);
+
+    // ── Week status: current / past / future ──
+    const isCurrent = sat.getTime() === todayWkSat.getTime();
+    const isPast    = sat.getTime() <  todayWkSat.getTime();
+    const rowCls    = isCurrent ? ' wk-current' : isPast ? ' wk-past' : '';
+    const rowId     = isCurrent ? ' id="wkRowCurrent"' : '';
 
     const dayColsHTML = visDays.map(day => {
       const evs = evOn(day).sort((a,b) => (a.isAD&&!b.isAD)?-1:(!a.isAD&&b.isAD)?1:(a.st||'00:00').localeCompare(b.st||'00:00'));
@@ -909,10 +932,11 @@ function renderMonth() {
       </div>`;
     }).join('');
 
-    return `<div class="wk-row">
+    return `<div class="wk-row${rowCls}"${rowId}>
       <div class="wk-row-hdr" onclick="showWeek(weekDaysFrom(new Date(${days[0].getTime()})))">
         <div class="wk-n">Wk ${n}</div>
         <div class="wk-range">${fmtS(sat)} – ${fmtS(sun)}</div>
+        ${isCurrent ? '<div class="wk-now-dot" title="Current week"></div>' : ''}
         ${tot?`<div class="wk-badge">${tot} event${tot>1?'s':''}</div>`:''}
         <button class="wk-goto" onclick="event.stopPropagation();showWeek(weekDaysFrom(new Date(${days[0].getTime()})))">View week →</button>
         <div class="wk-chevron">
@@ -925,6 +949,12 @@ function renderMonth() {
       ${tagsHere.length?`<div class="wk-tags">${tagsHere.map(t=>`<span class="tag-pill" style="background:${t.color}20;color:${t.color}">${t.name}</span>`).join('')}</div>`:''}
     </div>`;
   }).join('');
+
+  // ── Auto-scroll to current week row ──
+  requestAnimationFrame(() => {
+    const cur = document.getElementById('wkRowCurrent');
+    if (cur) cur.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 
   renderSidebar();
 }
