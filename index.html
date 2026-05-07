@@ -65,13 +65,20 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 .tb-today:hover { border-color:var(--t3);color:var(--text); }
 
 /* ══ MONTH VIEW ══ */
-.month-view { padding:18px 22px 60px; }
-.month-stats { display:flex;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px; }
-.mstat { padding:12px 18px;border-right:1px solid var(--border); }
+.month-view { padding:0 0 60px; }
+.month-stats {
+  display:flex;background:var(--surface);
+  border-bottom:1px solid var(--border);
+  overflow:hidden;
+  position:sticky;top:52px;z-index:40;
+  transition:border-top .15s;
+}
+.month-stats.is-stuck { border-top:2px solid var(--sat); }
+.mstat { padding:11px 18px;border-right:1px solid var(--border); }
 .mstat:last-child { border-right:none; }
 .mstat-n { font-size:19px;font-weight:700;letter-spacing:-.5px; }
 .mstat-l { font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;font-family:'DM Mono',monospace;margin-top:1px; }
-
+.weeks-wrap { padding:18px 22px 0; }
 /* Week rows */
 .weeks-list { display:flex;flex-direction:column;gap:10px; }
 .wk-row { background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden; }
@@ -669,7 +676,9 @@ textarea.finput { resize:none;min-height:66px;line-height:1.5; }
   <!-- Month view -->
   <div class="month-view" id="monthView">
     <div class="month-stats" id="mStats"></div>
-    <div class="weeks-list" id="weeksList"></div>
+    <div class="weeks-wrap">
+      <div class="weeks-list" id="weeksList"></div>
+    </div>
   </div>
 
   <!-- Week view -->
@@ -1248,6 +1257,23 @@ function setBN(view) {
   const t = view==='month'?'bnMonth':'bnWeek';
   const el = document.getElementById(t); if(el) el.className='bn-item active';
 }
+
+// ── Sticky stats bar — blue accent when scrolled past origin ──
+(function() {
+  const sentinel = document.createElement('div');
+  sentinel.style.cssText = 'position:absolute;top:0;left:0;height:1px;width:1px;pointer-events:none';
+  const monthView = document.getElementById('monthView');
+  if (monthView) {
+    monthView.style.position = 'relative';
+    monthView.insertBefore(sentinel, monthView.firstChild);
+    const obs = new IntersectionObserver(
+      ([e]) => { document.getElementById('mStats').classList.toggle('is-stuck', !e.isIntersecting); },
+      { rootMargin: '-53px 0px 0px 0px', threshold: 0 }
+    );
+    obs.observe(sentinel);
+  }
+})();
+
 renderMonth();
 renderSidebar();
 </script>
