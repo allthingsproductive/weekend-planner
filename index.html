@@ -974,13 +974,13 @@ function renderMonth() {
     </div>`;
   }).join('');
 
-  // ── Auto-scroll to current week row ──
+  // ── Auto-scroll to current week row (instant, no animation) ──
   requestAnimationFrame(() => {
     const cur = document.getElementById('wkRowCurrent');
     if (!cur) return;
     const topbarH = 52 + 12; // topbar + breathing room
     const y = cur.getBoundingClientRect().top + window.scrollY - topbarH;
-    window.scrollTo({ top: y, behavior: 'smooth' });
+    window.scrollTo({ top: y, behavior: 'instant' });
   });
 
   renderSidebar();
@@ -1273,22 +1273,23 @@ function setBN(view) {
   window.addEventListener('wheel', markUser, { passive: true });
   window.addEventListener('touchstart', markUser, { passive: true });
 
-  const obs = new IntersectionObserver(
-    ([e]) => {
-      const stats = document.getElementById('mStats');
-      if (!stats) return;
-      if (e.isIntersecting) {
-        // Always show when scrolled back to top
-        stats.classList.remove('is-collapsed');
-        userScrolled = false; // reset so next auto-scroll won't collapse
-      } else if (userScrolled) {
-        // Only collapse on user-initiated scroll
-        stats.classList.add('is-collapsed');
-      }
-    },
-    { rootMargin: '-53px 0px 0px 0px', threshold: 0 }
-  );
-  obs.observe(sentinel);
+  // Double rAF ensures instant scroll has settled before observer fires
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        const stats = document.getElementById('mStats');
+        if (!stats) return;
+        if (e.isIntersecting) {
+          stats.classList.remove('is-collapsed');
+          userScrolled = false;
+        } else if (userScrolled) {
+          stats.classList.add('is-collapsed');
+        }
+      },
+      { rootMargin: '-53px 0px 0px 0px', threshold: 0 }
+    );
+    obs.observe(sentinel);
+  }));
 })();
 
 renderMonth();
