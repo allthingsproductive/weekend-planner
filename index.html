@@ -1259,19 +1259,29 @@ function setBN(view) {
   const el = document.getElementById(t); if(el) el.className='bn-item active';
 }
 
-// ── Sticky stats bar — blue accent when scrolled past origin ──
+// ── Stats bar — collapse when user scrolls past origin ──
 (function() {
   const sentinel = document.createElement('div');
   sentinel.style.cssText = 'position:absolute;top:0;left:0;height:1px;width:1px;pointer-events:none';
   const monthView = document.getElementById('monthView');
-  if (monthView) {
-    monthView.style.position = 'relative';
-    monthView.insertBefore(sentinel, monthView.firstChild);
+  if (!monthView) return;
+  monthView.style.position = 'relative';
+  monthView.insertBefore(sentinel, monthView.firstChild);
+
+  function startObserver() {
     const obs = new IntersectionObserver(
       ([e]) => { document.getElementById('mStats').classList.toggle('is-collapsed', !e.isIntersecting); },
       { rootMargin: '-53px 0px 0px 0px', threshold: 0 }
     );
     obs.observe(sentinel);
+  }
+
+  // Activate observer only after auto-scroll finishes
+  // scrollend fires when scroll animation completes; fallback to timeout
+  if ('onscrollend' in window) {
+    window.addEventListener('scrollend', startObserver, { once: true });
+  } else {
+    setTimeout(startObserver, 900);
   }
 })();
 
