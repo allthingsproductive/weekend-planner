@@ -70,10 +70,11 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
   display:flex;background:var(--surface);
   border-bottom:1px solid var(--border);
   overflow:hidden;
-  position:sticky;top:52px;z-index:40;
-  transition:border-top .15s;
+  max-height:80px;
+  transition:max-height .28s ease, opacity .2s ease, border-bottom-color .28s ease;
+  opacity:1;
 }
-.month-stats.is-stuck { border-top:2px solid var(--sat); }
+.month-stats.is-collapsed { max-height:0; opacity:0; border-bottom-color:transparent; }
 .mstat { padding:11px 18px;border-right:1px solid var(--border); }
 .mstat:last-child { border-right:none; }
 .mstat-n { font-size:19px;font-weight:700;letter-spacing:-.5px; }
@@ -977,7 +978,7 @@ function renderMonth() {
   requestAnimationFrame(() => {
     const cur = document.getElementById('wkRowCurrent');
     if (!cur) return;
-    const topbarH = 52 + 12; // sticky topbar + breathing room
+    const topbarH = 52 + 12; // topbar + breathing room
     const y = cur.getBoundingClientRect().top + window.scrollY - topbarH;
     window.scrollTo({ top: y, behavior: 'smooth' });
   });
@@ -1267,7 +1268,7 @@ function setBN(view) {
     monthView.style.position = 'relative';
     monthView.insertBefore(sentinel, monthView.firstChild);
     const obs = new IntersectionObserver(
-      ([e]) => { document.getElementById('mStats').classList.toggle('is-stuck', !e.isIntersecting); },
+      ([e]) => { document.getElementById('mStats').classList.toggle('is-collapsed', !e.isIntersecting); },
       { rootMargin: '-53px 0px 0px 0px', threshold: 0 }
     );
     obs.observe(sentinel);
