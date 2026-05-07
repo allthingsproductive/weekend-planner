@@ -885,7 +885,19 @@ function weekContaining(date) {
 function navPrev() { S.view==='month' ? (S.mM--,S.mM<0&&(S.mM=11,S.mY--),renderMonth()) : shiftWeek(-1); }
 function navNext() { S.view==='month' ? (S.mM++,S.mM>11&&(S.mM=0,S.mY++),renderMonth()) : shiftWeek(1); }
 function goToday() { S.view==='month' ? (S.mY=TODAY.getFullYear(),S.mM=TODAY.getMonth(),renderMonth()) : showWeek(weekContaining(TODAY)); }
-function goMonth() { S.view='month'; document.getElementById('monthView').style.display=''; document.getElementById('weekView').style.display='none'; document.getElementById('sbMonth').className='sb-item active'; document.getElementById('sbWeek').className='sb-item'; setBN('month'); renderMonth(); }
+function goMonth() {
+  S.view='month';
+  document.getElementById('monthView').style.display='';
+  document.getElementById('weekView').style.display='none';
+  document.getElementById('sbMonth').className='sb-item active';
+  document.getElementById('sbWeek').className='sb-item';
+  setBN('month');
+  // Always show stats bar on entry
+  const stats = document.getElementById('mStats');
+  if (stats) stats.classList.remove('is-collapsed');
+  if (window._setStatsScrollBase) window._setStatsScrollBase(0);
+  renderMonth();
+}
 function goWeekCurrent() { setBN('week'); showWeek(weekContaining(TODAY)); }
 function shiftWeek(d) { const f=d0(S.wkDates[0]); f.setDate(f.getDate()+d*7); showWeek(weekDaysFrom(f)); }
 function showWeek(days) {
@@ -978,9 +990,11 @@ function renderMonth() {
   requestAnimationFrame(() => {
     const cur = document.getElementById('wkRowCurrent');
     if (!cur) return;
-    const topbarH = 52 + 12; // topbar + breathing room
+    const topbarH = 52 + 12;
     const y = cur.getBoundingClientRect().top + window.scrollY - topbarH;
     window.scrollTo({ top: y, behavior: 'instant' });
+    // Tell scroll listener where auto-scroll landed so it won't collapse stats
+    if (window._setStatsScrollBase) window._setStatsScrollBase(y);
   });
 
   renderSidebar();
@@ -1259,37 +1273,22 @@ function setBN(view) {
   const el = document.getElementById(t); if(el) el.className='bn-item active';
 }
 
-// ── Stats bar — collapse only when user manually scrolls past origin ──
+// ── Stats bar — collapse on user scroll, restore at top ──
 (function() {
-  const sentinel = document.createElement('div');
-  sentinel.style.cssText = 'position:absolute;top:0;left:0;height:1px;width:1px;pointer-events:none';
-  const monthView = document.getElementById('monthView');
-  if (!monthView) return;
-  monthView.style.position = 'relative';
-  monthView.insertBefore(sentinel, monthView.firstChild);
+  let autoScrollY = 0; // position after auto-scroll, set by renderMonth
+  window._setStatsScrollBase = function(y) { autoScrollY = y; };
 
-  let userScrolled = false;
-  const markUser = () => { userScrolled = true; };
-  window.addEventListener('wheel', markUser, { passive: true });
-  window.addEventListener('touchstart', markUser, { passive: true });
-
-  // Double rAF ensures instant scroll has settled before observer fires
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        const stats = document.getElementById('mStats');
-        if (!stats) return;
-        if (e.isIntersecting) {
-          stats.classList.remove('is-collapsed');
-          userScrolled = false;
-        } else if (userScrolled) {
-          stats.classList.add('is-collapsed');
-        }
-      },
-      { rootMargin: '-53px 0px 0px 0px', threshold: 0 }
-    );
-    obs.observe(sentinel);
-  }));
+  window.addEventListener('scroll', function() {
+    const stats = document.getElementById('mStats');
+    if (!stats) return;
+    if (S.view !== 'month') return;
+    // Only collapse if user has scrolled beyond the auto-scroll landing position
+    if (window.scrollY > autoScrollY + 10) {
+      stats.classList.add('is-collapsed');
+    } else {
+      stats.classList.remove('is-collapsed');
+    }
+  }, { passive: true });
 })();
 
 renderMonth();
