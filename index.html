@@ -1259,7 +1259,7 @@ function setBN(view) {
   const el = document.getElementById(t); if(el) el.className='bn-item active';
 }
 
-// ── Stats bar — collapse when user scrolls past origin ──
+// ── Stats bar — collapse only when user manually scrolls past origin ──
 (function() {
   const sentinel = document.createElement('div');
   sentinel.style.cssText = 'position:absolute;top:0;left:0;height:1px;width:1px;pointer-events:none';
@@ -1268,21 +1268,27 @@ function setBN(view) {
   monthView.style.position = 'relative';
   monthView.insertBefore(sentinel, monthView.firstChild);
 
-  function startObserver() {
-    const obs = new IntersectionObserver(
-      ([e]) => { document.getElementById('mStats').classList.toggle('is-collapsed', !e.isIntersecting); },
-      { rootMargin: '-53px 0px 0px 0px', threshold: 0 }
-    );
-    obs.observe(sentinel);
-  }
+  let userScrolled = false;
+  const markUser = () => { userScrolled = true; };
+  window.addEventListener('wheel', markUser, { passive: true });
+  window.addEventListener('touchstart', markUser, { passive: true });
 
-  // Activate observer only after auto-scroll finishes
-  // scrollend fires when scroll animation completes; fallback to timeout
-  if ('onscrollend' in window) {
-    window.addEventListener('scrollend', startObserver, { once: true });
-  } else {
-    setTimeout(startObserver, 900);
-  }
+  const obs = new IntersectionObserver(
+    ([e]) => {
+      const stats = document.getElementById('mStats');
+      if (!stats) return;
+      if (e.isIntersecting) {
+        // Always show when scrolled back to top
+        stats.classList.remove('is-collapsed');
+        userScrolled = false; // reset so next auto-scroll won't collapse
+      } else if (userScrolled) {
+        // Only collapse on user-initiated scroll
+        stats.classList.add('is-collapsed');
+      }
+    },
+    { rootMargin: '-53px 0px 0px 0px', threshold: 0 }
+  );
+  obs.observe(sentinel);
 })();
 
 renderMonth();
