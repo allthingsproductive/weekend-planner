@@ -125,7 +125,21 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 .wk-tags { display:flex;flex-wrap:wrap;gap:4px;padding:7px 16px;border-top:1px solid var(--border-light);background:var(--bg); }
 .tag-pill { font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px; }
 
-/* ── Current-week indicator dot ── */
+/* ── Current-week summary strip ── */
+.wk-summary {
+  display:flex; flex-wrap:wrap; gap:6px;
+  padding:8px 16px;
+  border-top:1px solid #bfdbfe;
+  background:#eff6ff;
+}
+.wk-sum-pill {
+  display:flex; align-items:center; gap:5px;
+  font-size:11px; font-weight:500; color:var(--t2);
+  background:var(--surface); border:1px solid #bfdbfe;
+  border-radius:6px; padding:3px 9px;
+}
+.wk-sum-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.wk-sum-count { font-weight:700; color:var(--text); }
 .wk-now-dot {
   width:7px; height:7px; border-radius:50%;
   background:var(--sat); flex-shrink:0;
@@ -946,14 +960,17 @@ function renderMonth() {
         </div>
       </div>
       <div class="wk-days" style="grid-template-columns:repeat(${visDays.length},1fr)">${dayColsHTML}</div>
-      ${tagsHere.length?`<div class="wk-tags">${tagsHere.map(t=>`<span class="tag-pill" style="background:${t.color}20;color:${t.color}">${t.name}</span>`).join('')}</div>`:''}
+      ${isCurrent && tagsHere.length ? `<div class="wk-summary">${tagsHere.map(t=>{const cnt=allEvs.filter(e=>e.tid===t.id).length;return`<div class="wk-sum-pill"><span class="wk-sum-dot" style="background:${t.color}"></span><span class="wk-sum-count">${cnt}</span>${t.name}</div>`;}).join('')}</div>` : tagsHere.length?`<div class="wk-tags">${tagsHere.map(t=>`<span class="tag-pill" style="background:${t.color}20;color:${t.color}">${t.name}</span>`).join('')}</div>`:''}
     </div>`;
   }).join('');
 
   // ── Auto-scroll to current week row ──
   requestAnimationFrame(() => {
     const cur = document.getElementById('wkRowCurrent');
-    if (cur) cur.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (!cur) return;
+    const topbarH = 52 + 12; // sticky topbar + breathing room
+    const y = cur.getBoundingClientRect().top + window.scrollY - topbarH;
+    window.scrollTo({ top: y, behavior: 'smooth' });
   });
 
   renderSidebar();
