@@ -65,21 +65,13 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 .tb-today:hover { border-color:var(--t3);color:var(--text); }
 
 /* ══ MONTH VIEW ══ */
-.month-view { padding:0 0 60px; }
-.month-stats {
-  display:flex;background:var(--surface);
-  border-bottom:1px solid var(--border);
-  overflow:hidden;
-  max-height:80px;
-  transition:max-height .28s ease, opacity .2s ease, border-bottom-color .28s ease;
-  opacity:1;
-}
-.month-stats.is-collapsed { max-height:0; opacity:0; border-bottom-color:transparent; }
-.mstat { padding:11px 18px;border-right:1px solid var(--border); }
+.month-view { padding:18px 22px 60px; }
+.month-stats { display:flex;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px; }
+.mstat { padding:12px 18px;border-right:1px solid var(--border); }
 .mstat:last-child { border-right:none; }
 .mstat-n { font-size:19px;font-weight:700;letter-spacing:-.5px; }
 .mstat-l { font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;font-family:'DM Mono',monospace;margin-top:1px; }
-.weeks-wrap { padding:18px 22px 0; }
+
 /* Week rows */
 .weeks-list { display:flex;flex-direction:column;gap:10px; }
 .wk-row { background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden; }
@@ -132,33 +124,6 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 .day-free-m { font-size:11px;color:var(--t3);font-style:italic;padding:4px 0; }
 .wk-tags { display:flex;flex-wrap:wrap;gap:4px;padding:7px 16px;border-top:1px solid var(--border-light);background:var(--bg); }
 .tag-pill { font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px; }
-
-/* ── Current-week summary strip ── */
-.wk-summary {
-  display:flex; flex-wrap:wrap; gap:6px;
-  padding:8px 16px;
-  border-top:1px solid #bfdbfe;
-  background:#eff6ff;
-}
-.wk-sum-pill {
-  display:flex; align-items:center; gap:5px;
-  font-size:11px; font-weight:500; color:var(--t2);
-  background:var(--surface); border:1px solid #bfdbfe;
-  border-radius:6px; padding:3px 9px;
-}
-.wk-sum-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
-.wk-sum-count { font-weight:700; color:var(--text); }
-.wk-now-dot {
-  width:7px; height:7px; border-radius:50%;
-  background:var(--sat); flex-shrink:0;
-  box-shadow: 0 0 0 2px #dbeafe;
-}
-/* ── Current-week row highlight ── */
-.wk-row.wk-current { border-color:#bfdbfe; }
-.wk-row.wk-current .wk-row-hdr { background:#eff6ff; }
-/* ── Past-week dimming ── */
-.wk-row.wk-past { opacity:.45; filter:grayscale(.3); }
-.wk-row.wk-past .wk-row-hdr:hover { background:var(--bg); }
 
 /* ══ WEEK VIEW ══ */
 .week-view {
@@ -338,96 +303,6 @@ textarea.finput { resize:none;min-height:66px;line-height:1.5; }
 .exp-range input { flex:1;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;background:var(--bg); }
 .exp-range input:focus { border-color:var(--text); }
 
-/* ══ WISHLIST ══ */
-.wishlist-view { padding:0 0 60px; }
-.wl-toolbar { display:flex;align-items:center;justify-content:space-between;padding:14px 22px 10px; }
-.wl-toolbar-title { font-size:14px;font-weight:600;letter-spacing:-.3px; }
-.wl-add-btn { display:flex;align-items:center;gap:6px;padding:7px 13px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:opacity .15s; }
-.wl-add-btn:hover { opacity:.85; }
-.wl-list { padding:0 22px 0; display:flex;flex-direction:column;gap:7px; }
-.wl-empty { text-align:center;padding:60px 20px;color:var(--t3); }
-.wl-empty .ei { font-size:28px;margin-bottom:8px;opacity:.3; }
-.wl-empty p { font-size:13px;line-height:1.7; }
-
-/* Wishlist item card */
-.wl-item { background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;transition:border-color .12s; }
-.wl-item.wl-overdue { border-color:#fecaca;background:#fff8f8; }
-.wl-item.wl-scheduled { border-color:#bbf7d0;background:#f0fdf4; }
-.wl-item-top { display:flex;align-items:flex-start;gap:10px; }
-.wl-item-body { flex:1;min-width:0; }
-.wl-item-title { font-size:13px;font-weight:600;letter-spacing:-.1px;color:var(--text); }
-.wl-item-title.wl-overdue-txt { color:#dc2626; }
-.wl-item-meta { display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:4px; }
-.wl-month-chip { font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;border:1px solid; }
-.wl-chip-blue  { background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe; }
-.wl-chip-red   { background:#fee2e2;color:#dc2626;border-color:#fecaca; }
-.wl-chip-green { background:#f0fdf4;color:#15803d;border-color:#bbf7d0; }
-.wl-rolled-lbl { font-size:10px;color:var(--t3);font-style:italic; }
-.wl-note { font-size:11px;color:var(--t3);margin-top:4px;line-height:1.45; }
-.wl-item-actions { display:flex;gap:5px;margin-top:8px;flex-wrap:wrap; }
-.wl-btn-p { font-size:11px;padding:4px 10px;border-radius:5px;background:var(--accent);color:#fff;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500; }
-.wl-btn-s { font-size:11px;padding:4px 9px;border-radius:5px;background:transparent;color:var(--t2);border:1px solid var(--border);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .1s; }
-.wl-btn-s:hover { border-color:var(--t3);color:var(--text); }
-.wl-btn-d { font-size:11px;padding:4px 9px;border-radius:5px;background:transparent;color:#dc2626;border:1px solid #fecaca;cursor:pointer;font-family:'DM Sans',sans-serif; }
-.wl-scheduled-lnk { font-size:11px;color:var(--wd);font-weight:500;cursor:pointer;text-decoration:underline;margin-top:5px;display:inline-block; }
-
-/* Wishlist item menu (edit/delete dots) */
-.wl-item-menu { position:relative; }
-.wl-dots { background:none;border:1px solid var(--border);border-radius:5px;padding:3px 7px;cursor:pointer;font-size:13px;color:var(--t3);font-family:'DM Sans',sans-serif;line-height:1; }
-.wl-dots:hover { border-color:var(--t3);color:var(--text); }
-
-/* Wishlist section headers (overdue / upcoming) */
-.wl-section-hdr { font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;font-family:'DM Mono',monospace;padding:10px 22px 4px; }
-.wl-section-hdr.red { color:#dc2626; }
-
-/* Wishlist add/edit modal */
-.wl-month-grid { display:flex;flex-wrap:wrap;gap:5px;margin-top:4px; }
-.wl-mg-btn { padding:5px 10px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:transparent;color:var(--t2);font-family:'DM Sans',sans-serif;transition:all .1s; }
-.wl-mg-btn:hover { border-color:var(--t3); }
-.wl-mg-btn.sel { background:var(--sat);border-color:var(--sat);color:#fff; }
-.wl-mg-btn.past { opacity:.4;pointer-events:none; }
-.wl-remind-hint { font-size:10px;color:var(--t3);margin-top:5px;line-height:1.5; }
-
-/* Sidebar wishlist badge states */
-.sb-item.wl-danger { background:#fee2e2!important;color:#dc2626!important;font-weight:700!important; }
-.sb-item.wl-danger .ic { opacity:1!important; }
-.wl-bdg-red { margin-left:auto;font-size:9px;font-weight:700;background:#fecaca;color:#dc2626;border-radius:4px;padding:1px 5px; }
-
-/* Wishlist overdue banner (shown in month view) */
-.wl-banner { display:flex;align-items:flex-start;gap:10px;padding:10px 18px;background:#fef9c3;border-bottom:1px solid #fde68a; }
-.wl-banner-icon { font-size:16px;flex-shrink:0;margin-top:1px; }
-.wl-banner-body { flex:1;min-width:0; }
-.wl-banner-title { font-size:12px;font-weight:600;color:#92400e; }
-.wl-banner-sub { font-size:11px;color:#a16207;margin-top:2px;line-height:1.45; }
-.wl-banner-btns { display:flex;gap:6px;margin-top:6px; }
-.wl-banner-btn-p { font-size:11px;padding:4px 11px;border-radius:5px;background:#1c1c1a;color:#fff;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500; }
-.wl-banner-btn-s { font-size:11px;padding:4px 9px;border-radius:5px;background:transparent;color:#92400e;border:1px solid #fde68a;cursor:pointer;font-family:'DM Sans',sans-serif; }
-.wl-banner-close { background:none;border:none;cursor:pointer;font-size:16px;color:#a16207;padding:0 2px;flex-shrink:0;align-self:flex-start; }
-
-/* Snooze dialog */
-.snooze-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,.28);z-index:500;backdrop-filter:blur(3px);align-items:center;justify-content:center; }
-.snooze-overlay.show { display:flex; }
-.snooze-modal { background:var(--surface);border-radius:13px;padding:20px 22px 22px;width:calc(100% - 32px);max-width:380px;animation:mIn .18s ease-out;box-shadow:0 8px 40px rgba(0,0,0,.16);max-height:90vh;overflow-y:auto; }
-.sn-hdr { display:flex;align-items:flex-start;gap:10px;margin-bottom:14px; }
-.sn-avatar { width:36px;height:36px;border-radius:50%;background:#ede9fe;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0; }
-.sn-title { font-size:14px;font-weight:700;letter-spacing:-.2px; }
-.sn-sub { font-size:11px;color:var(--t3);margin-top:3px; }
-.sn-counter { font-size:10px;color:var(--t3);margin-bottom:10px;font-family:'DM Mono',monospace; }
-.sn-options { display:flex;flex-direction:column;gap:4px;margin-bottom:14px; }
-.sn-opt { display:flex;align-items:flex-start;gap:10px;padding:9px 11px;border-radius:7px;border:1.5px solid var(--border);background:transparent;cursor:pointer;transition:all .12s;text-align:left;font-family:'DM Sans',sans-serif;width:100%; }
-.sn-opt:hover { border-color:var(--t3);background:var(--bg); }
-.sn-opt.sel { border-color:var(--accent);background:var(--bg); }
-.sn-opt-ic { font-size:16px;flex-shrink:0;margin-top:1px; }
-.sn-opt-body { flex:1;min-width:0; }
-.sn-opt-title { font-size:12px;font-weight:600;color:var(--text); }
-.sn-opt-desc { font-size:10px;color:var(--t3);margin-top:1px; }
-.sn-month-pick { display:flex;flex-wrap:wrap;gap:4px;padding:8px 10px;background:var(--bg);border-radius:6px;margin-top:4px; }
-.sn-mp-btn { font-size:11px;padding:4px 9px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .1s; }
-.sn-mp-btn:hover { border-color:var(--t3); }
-.sn-mp-btn.sel { background:var(--sat);border-color:var(--sat);color:#fff; }
-.sn-btn-row { display:flex;gap:7px; }
-
-/* ── Responsive */
 /* ── Responsive ── */
 /* ══ MOBILE ══════════════════════════════════════════════════ */
 @media(max-width:700px){
@@ -495,13 +370,6 @@ textarea.finput { resize:none;min-height:66px;line-height:1.5; }
   .ev-card { padding:8px 10px 8px 12px; }
   .ev-title { font-size:12px; }
   .add-day-btn { font-size:10px; padding:6px; }
-
-  /* ── Wishlist mobile ── */
-  .wishlist-view { padding:10px 0 80px; }
-  .wl-toolbar { padding:10px 14px 8px; }
-  .wl-list { padding:0 12px; }
-  .wl-section-hdr { padding:8px 14px 3px; }
-  .wl-banner { padding:9px 14px; }
 
   /* ── Detail panel full screen ── */
   .detail-panel { width:100%; }
@@ -728,7 +596,6 @@ textarea.finput { resize:none;min-height:66px;line-height:1.5; }
     <div class="sb-lbl">Navigate</div>
     <button class="sb-item active" id="sbMonth" onclick="goMonth()"><span class="ic">◫</span>Month</button>
     <button class="sb-item" id="sbWeek" onclick="goWeekCurrent()"><span class="ic">☰</span>Current week</button>
-    <button class="sb-item" id="sbWishlist" onclick="goWishlist()"><span class="ic">✦</span>Wishlist<span class="bdg" id="sbWishlistBdg"></span></button>
   </div>
 
   <div class="sb-sec">
@@ -775,9 +642,7 @@ textarea.finput { resize:none;min-height:66px;line-height:1.5; }
   <!-- Month view -->
   <div class="month-view" id="monthView">
     <div class="month-stats" id="mStats"></div>
-    <div class="weeks-wrap">
-      <div class="weeks-list" id="weeksList"></div>
-    </div>
+    <div class="weeks-list" id="weeksList"></div>
   </div>
 
   <!-- Week view -->
@@ -787,19 +652,6 @@ textarea.finput { resize:none;min-height:66px;line-height:1.5; }
       <div class="wk-view-title" id="wkTitle"></div>
     </div>
     <div class="cols-wrap"><div class="cols-body" id="colsBody"></div></div>
-  </div>
-
-  <!-- Wishlist view -->
-  <div class="wishlist-view" id="wishlistView" style="display:none">
-    <div id="wlBanner"></div>
-    <div class="wl-toolbar">
-      <div class="wl-toolbar-title">Wishlist</div>
-      <button class="wl-add-btn" onclick="openWishlistAdd()">
-        <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
-        Add item
-      </button>
-    </div>
-    <div id="wlList"></div>
   </div>
 </main>
 </div>
@@ -830,13 +682,6 @@ textarea.finput { resize:none;min-height:66px;line-height:1.5; }
       <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
     </svg>
     Week
-  </button>
-  <button class="bn-item" id="bnWishlist" onclick="goWishlist();setBN('wishlist')" style="position:relative">
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M10 17s-7-4.35-7-8.5A4.5 4.5 0 0 1 10 5.25 4.5 4.5 0 0 1 17 8.5C17 12.65 10 17 10 17z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-    </svg>
-    Wish
-    <span id="bnWishlistDot" style="display:none;position:absolute;top:4px;right:calc(50% - 16px);width:7px;height:7px;border-radius:50%;background:#dc2626;border:1.5px solid var(--surface)"></span>
   </button>
 </nav>
 
@@ -906,63 +751,6 @@ textarea.finput { resize:none;min-height:66px;line-height:1.5; }
   <div class="dp-body" id="dpBody"></div>
 </div>
 
-<!-- Wishlist add/edit modal -->
-<div class="overlay" id="wlAddOverlay" onclick="if(event.target===this)closeWishlistAdd()">
-  <div class="modal">
-    <div class="modal-title" id="wlAddTitle">New wishlist item</div>
-    <div class="fg"><div class="flbl">สิ่งที่อยากทำ / คนที่อยากเจอ</div><input class="finput" id="wlInTitle" placeholder="เช่น นัดกาแฟกับ Mint, หมอ check-up…"></div>
-    <div class="fg"><div class="flbl">Tag</div><div class="tag-row" id="wlTagPicker"></div></div>
-    <div class="fg">
-      <div class="flbl">เดือนที่อยากนัด <span style="font-weight:400;text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:10px;color:var(--t3)">(เลือก 1 เดือน)</span></div>
-      <div class="wl-month-grid" id="wlMonthPicker"></div>
-      <div class="wl-remind-hint" id="wlRemindHint"></div>
-    </div>
-    <div class="fg"><div class="flbl">Note</div><textarea class="finput" id="wlInNote" placeholder="Optional…"></textarea></div>
-    <div class="btn-row"><button class="btn-s" onclick="closeWishlistAdd()">Cancel</button><button class="btn-p" onclick="saveWishlistItem()">Save</button></div>
-  </div>
-</div>
-
-<!-- Snooze / action dialog -->
-<div class="snooze-overlay" id="snoozeOverlay">
-  <div class="snooze-modal" onclick="event.stopPropagation()">
-    <div class="sn-hdr">
-      <div class="sn-avatar" id="snAvatar">✦</div>
-      <div>
-        <div class="sn-title" id="snTitle">—</div>
-        <div class="sn-sub" id="snSub">—</div>
-      </div>
-    </div>
-    <div class="sn-counter" id="snCounter"></div>
-    <div class="sn-options">
-      <button class="sn-opt" id="snOptSchedule" onclick="snChoose('schedule')">
-        <span class="sn-opt-ic">📅</span>
-        <div class="sn-opt-body"><div class="sn-opt-title">สร้างนัดเลย</div><div class="sn-opt-desc">เปิด Add event form พร้อม prefill ชื่อและ tag</div></div>
-      </button>
-      <button class="sn-opt" id="snOptRoll" onclick="snChoose('roll')">
-        <span class="sn-opt-ic">⟳</span>
-        <div class="sn-opt-body"><div class="sn-opt-title" id="snRollLbl">เลื่อนไปเดือนถัดไป</div><div class="sn-opt-desc">auto-roll เงียบๆ ไม่มี popup</div></div>
-      </button>
-      <button class="sn-opt" id="snOptPick" onclick="snChoose('pick')">
-        <span class="sn-opt-ic">📆</span>
-        <div class="sn-opt-body">
-          <div class="sn-opt-title">เลือกเดือนใหม่เอง</div>
-          <div class="sn-mp-btns-wrap" id="snMonthPickerWrap" style="display:none">
-            <div class="sn-month-pick" id="snMonthPicker"></div>
-          </div>
-        </div>
-      </button>
-      <button class="sn-opt" id="snOptDelete" onclick="snChoose('delete')">
-        <span class="sn-opt-ic">🗑</span>
-        <div class="sn-opt-body"><div class="sn-opt-title" style="color:#dc2626">ลบออกจาก wishlist</div><div class="sn-opt-desc">ไม่อยากทำแล้ว</div></div>
-      </button>
-    </div>
-    <div class="sn-btn-row">
-      <button class="btn-s" onclick="snoozeSkip()">Skip</button>
-      <button class="btn-p" id="snConfirmBtn" onclick="snoozeConfirm()" style="flex:1">ยืนยัน</button>
-    </div>
-  </div>
-</div>
-
 <script>
 // ── Constants ─────────────────────────────────────────────────
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -984,18 +772,6 @@ const S = {
     {id:'t3',name:'Health',  color:'#10b981'},
     {id:'t4',name:'Social',  color:'#f59e0b'},
   ],
-  // ── Wishlist state ──
-  wishlist: [],          // [{id, title, tid, targetY, targetM, note, rolledFrom, scheduledEventId}]
-  wlEditId: null,        // wishlist item being edited
-  wlTagId: null,         // tag selected in wishlist form
-  wlTargetY: null,       // year selected in wishlist form
-  wlTargetM: null,       // month selected in wishlist form (0-based)
-  snoozeQueue: [],       // items pending snooze dialog
-  snoozeIdx: 0,          // current index in queue
-  snoozeChoice: null,    // 'schedule'|'roll'|'pick'|'delete'
-  snoozePickM: null,     // month picked in 'pick' mode (0-based)
-  snoozePickY: null,     // year picked in 'pick' mode
-  bannerDismissedKey: '',// localStorage key for dismissed banner
 };
 
 const TODAY = new Date(); TODAY.setHours(0,0,0,0);
@@ -1033,20 +809,6 @@ const deleteEventRemote = (id) => {
     const { doc, deleteDoc } = window.WP_FS;
     deleteDoc(doc(db, 'users', uid, 'events', id)).catch(console.error);
   }
-};
-
-// ── Wishlist persist helpers ──────────────────────────────────
-const persistWishlist = () => {
-  if (window.WP_DB && window.WP_UID) {
-    const db = window.WP_DB, uid = window.WP_UID;
-    const { doc, setDoc } = window.WP_FS;
-    setDoc(doc(db, 'users', uid), { wishlist: S.wishlist }, { merge: true }).catch(console.error);
-  } else {
-    localStorage.setItem('wp_wishlist_local', JSON.stringify(S.wishlist));
-  }
-};
-const loadWishlistLocal = () => {
-  S.wishlist = JSON.parse(localStorage.getItem('wp_wishlist_local') || '[]');
 };
 const fmtS = d => `${d.getDate()} ${MONTHS3[d.getMonth()]}`;
 const fmtFull = d => `${DAYS3[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
@@ -1086,46 +848,17 @@ function weekContaining(date) {
 function navPrev() { S.view==='month' ? (S.mM--,S.mM<0&&(S.mM=11,S.mY--),renderMonth()) : shiftWeek(-1); }
 function navNext() { S.view==='month' ? (S.mM++,S.mM>11&&(S.mM=0,S.mY++),renderMonth()) : shiftWeek(1); }
 function goToday() { S.view==='month' ? (S.mY=TODAY.getFullYear(),S.mM=TODAY.getMonth(),renderMonth()) : showWeek(weekContaining(TODAY)); }
-function goMonth() {
-  S.view='month';
-  document.getElementById('monthView').style.display='';
-  document.getElementById('weekView').style.display='none';
-  document.getElementById('wishlistView').style.display='none';
-  document.getElementById('sbMonth').className='sb-item active';
-  document.getElementById('sbWeek').className='sb-item';
-  document.getElementById('sbWishlist').className='sb-item';
-  setBN('month');
-  // Always show stats bar on entry
-  const stats = document.getElementById('mStats');
-  if (stats) stats.classList.remove('is-collapsed');
-  if (window._setStatsScrollBase) window._setStatsScrollBase(0);
-  renderMonth();
-}
+function goMonth() { S.view='month'; document.getElementById('monthView').style.display=''; document.getElementById('weekView').style.display='none'; document.getElementById('sbMonth').className='sb-item active'; document.getElementById('sbWeek').className='sb-item'; setBN('month'); renderMonth(); }
 function goWeekCurrent() { setBN('week'); showWeek(weekContaining(TODAY)); }
 function shiftWeek(d) { const f=d0(S.wkDates[0]); f.setDate(f.getDate()+d*7); showWeek(weekDaysFrom(f)); }
 function showWeek(days) {
   S.view='week'; S.wkDates=days;
   document.getElementById('monthView').style.display='none';
   document.getElementById('weekView').style.display='flex';
-  document.getElementById('wishlistView').style.display='none';
   document.getElementById('sbMonth').className='sb-item';
   document.getElementById('sbWeek').className='sb-item active';
-  document.getElementById('sbWishlist').className='sb-item';
   setBN('week');
   renderWeek(days);
-}
-function goWishlist() {
-  S.view='wishlist';
-  document.getElementById('monthView').style.display='none';
-  document.getElementById('weekView').style.display='none';
-  document.getElementById('wishlistView').style.display='';
-  document.getElementById('sbMonth').className='sb-item';
-  document.getElementById('sbWeek').className='sb-item';
-  document.getElementById('sbWishlist').className='sb-item active';
-  document.getElementById('tbTitle').textContent='Wishlist';
-  document.getElementById('tbPeriod').textContent='';
-  setBN('wishlist');
-  renderWishlist();
 }
 
 // ── Month render ──────────────────────────────────────────────
@@ -1147,21 +880,11 @@ function renderMonth() {
 
   if (!wks.length) { document.getElementById('weeksList').innerHTML='<div style="padding:40px;color:var(--t3);text-align:center">No weekends this month</div>'; renderSidebar(); return; }
 
-  // Determine which week contains today (for highlighting & scroll)
-  const todayWkSat = d0(TODAY);
-  { const dow = TODAY.getDay(); if(dow===0) todayWkSat.setDate(TODAY.getDate()-1); else todayWkSat.setDate(TODAY.getDate()+(6-dow)); }
-
   document.getElementById('weeksList').innerHTML = wks.map(({days, sat, sun, n}) => {
     const visDays = days.filter(day => dayType(day)!=='wd' || evOn(day).length>0);
     const allEvs=[]; days.forEach(day=>evOn(day).forEach(ev=>allEvs.push(ev)));
     const tot=allEvs.length;
     const tagsHere=[...new Set(allEvs.map(e=>e.tid).filter(Boolean))].map(id=>S.tags.find(t=>t.id===id)).filter(Boolean);
-
-    // ── Week status: current / past / future ──
-    const isCurrent = sat.getTime() === todayWkSat.getTime();
-    const isPast    = sat.getTime() <  todayWkSat.getTime();
-    const rowCls    = isCurrent ? ' wk-current' : isPast ? ' wk-past' : '';
-    const rowId     = isCurrent ? ' id="wkRowCurrent"' : '';
 
     const dayColsHTML = visDays.map(day => {
       const evs = evOn(day).sort((a,b) => (a.isAD&&!b.isAD)?-1:(!a.isAD&&b.isAD)?1:(a.st||'00:00').localeCompare(b.st||'00:00'));
@@ -1186,11 +909,10 @@ function renderMonth() {
       </div>`;
     }).join('');
 
-    return `<div class="wk-row${rowCls}"${rowId}>
+    return `<div class="wk-row">
       <div class="wk-row-hdr" onclick="showWeek(weekDaysFrom(new Date(${days[0].getTime()})))">
         <div class="wk-n">Wk ${n}</div>
         <div class="wk-range">${fmtS(sat)} – ${fmtS(sun)}</div>
-        ${isCurrent ? '<div class="wk-now-dot" title="Current week"></div>' : ''}
         ${tot?`<div class="wk-badge">${tot} event${tot>1?'s':''}</div>`:''}
         <button class="wk-goto" onclick="event.stopPropagation();showWeek(weekDaysFrom(new Date(${days[0].getTime()})))">View week →</button>
         <div class="wk-chevron">
@@ -1200,23 +922,9 @@ function renderMonth() {
         </div>
       </div>
       <div class="wk-days" style="grid-template-columns:repeat(${visDays.length},1fr)">${dayColsHTML}</div>
-      ${isCurrent && tagsHere.length ? `<div class="wk-summary">${tagsHere.map(t=>{const cnt=allEvs.filter(e=>e.tid===t.id).length;return`<div class="wk-sum-pill"><span class="wk-sum-dot" style="background:${t.color}"></span><span class="wk-sum-count">${cnt}</span>${t.name}</div>`;}).join('')}</div>` : tagsHere.length?`<div class="wk-tags">${tagsHere.map(t=>`<span class="tag-pill" style="background:${t.color}20;color:${t.color}">${t.name}</span>`).join('')}</div>`:''}
+      ${tagsHere.length?`<div class="wk-tags">${tagsHere.map(t=>`<span class="tag-pill" style="background:${t.color}20;color:${t.color}">${t.name}</span>`).join('')}</div>`:''}
     </div>`;
   }).join('');
-
-  // ── Auto-scroll to current week row (instant, no animation) ──
-  requestAnimationFrame(() => {
-    const cur = document.getElementById('wkRowCurrent');
-    if (!cur) return;
-    const topbarH = 52 + 12;
-    const y = cur.getBoundingClientRect().top + window.scrollY - topbarH;
-    window.scrollTo({ top: y, behavior: 'instant' });
-    // Tell scroll listener where auto-scroll landed so it won't collapse stats
-    if (window._setStatsScrollBase) window._setStatsScrollBase(y);
-  });
-
-  // ── Wishlist overdue banner (A2+A3) ──
-  renderWishlistBanner();
 
   renderSidebar();
 }
@@ -1279,24 +987,6 @@ function renderSidebar() {
     const cnt = S.events.filter(e=>e.tid===t.id).length;
     return `<div class="sb-item"><div class="sb-dot" style="background:${t.color}"></div><span style="color:${t.color};font-weight:500">${t.name}</span>${cnt?`<span class="bdg">${cnt}</span>`:''}</div>`;
   }).join('');
-
-  // ── Wishlist badge (A2: persistent red badge) ──
-  const overdueItems = getOverdueWishlistItems();
-  const sbWl = document.getElementById('sbWishlist');
-  const bdg  = document.getElementById('sbWishlistBdg');
-  const bnDot = document.getElementById('bnWishlistDot');
-  if (sbWl) {
-    if (overdueItems.length > 0) {
-      sbWl.className = 'sb-item wl-danger' + (S.view==='wishlist' ? ' active' : '');
-      if (bdg) { bdg.className = 'wl-bdg-red'; bdg.textContent = overdueItems.length + '!'; }
-      if (bnDot) bnDot.style.display = '';
-    } else {
-      sbWl.className = 'sb-item' + (S.view==='wishlist' ? ' active' : '');
-      const total = S.wishlist.filter(w => !w.scheduledEventId).length;
-      if (bdg) { bdg.className = 'bdg'; bdg.textContent = total > 0 ? total : ''; }
-      if (bnDot) bnDot.style.display = 'none';
-    }
-  }
 }
 
 // ── Detail panel ──────────────────────────────────────────────
@@ -1389,6 +1079,21 @@ function syncTags() {
     + `<div class="tag-chip new-tag" onclick="openTagModal()">+ New</div>`;
 }
 function pickTag(id) { S.tagId=S.tagId===id?null:id; syncTags(); }
+function saveEvent() {
+  const title=document.getElementById('inTitle').value.trim();
+  if(!title){document.getElementById('inTitle').focus();return;}
+  if(!S.formDate){alert('Please pick a date');return;}
+  const ev = {
+    id: S.editId||'e'+Date.now(), title, tid:S.tagId, ds:S.formDate, isAD:S.isAD,
+    st: S.isAD?null:document.getElementById('inStart').value,
+    et: S.isAD?null:document.getElementById('inEnd').value,
+    onlyMe:S.onlyMe, ppl:[...S.people], note:document.getElementById('inNote').value.trim(),
+  };
+  if(S.editId){ const i=S.events.findIndex(e=>e.id===S.editId); if(i>=0)S.events[i]=ev; }
+  else S.events.push(ev);
+  persist(); persistEvent(ev); closeAdd();
+  S.view==='month' ? renderMonth() : renderWeek(S.wkDates);
+}
 
 // ── Tag modal ─────────────────────────────────────────────────
 function openTagModal() { S.newTagColor=COLORS[0]; document.getElementById('newTagName').value=''; renderColors(); document.getElementById('tagOverlay').classList.add('show'); }
@@ -1490,468 +1195,14 @@ function triggerGoogleLogin() {
   window.WP_TRIGGER_LOGIN();
 }
 
-// ══════════════════════════════════════════════════════════════
-// ── WISHLIST FEATURE ─────────────────────────────────────────
-// ══════════════════════════════════════════════════════════════
-
-// ── Helpers ──────────────────────────────────────────────────
-function getOverdueWishlistItems() {
-  // Items where targetY/M is before or equal to current month AND no scheduledEventId
-  return S.wishlist.filter(w => {
-    if (w.scheduledEventId) return false;
-    if (w.targetY == null || w.targetM == null) return false;
-    const tDate = new Date(w.targetY, w.targetM, 1);
-    const nowDate = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
-    return tDate <= nowDate;
-  });
-}
-
-function getThisMonthWishlistItems() {
-  return S.wishlist.filter(w => {
-    if (w.scheduledEventId) return false;
-    return w.targetY === TODAY.getFullYear() && w.targetM === TODAY.getMonth();
-  });
-}
-
-// ── Wishlist banner (shown in month view when overdue items exist) ──
-function renderWishlistBanner() {
-  const el = document.getElementById('wlBanner');
-  if (!el) return; // only exists in wishlist view
-
-  const bannerEl = document.getElementById('monthView');
-  // Inject banner into month view stats area
-  let banner = document.getElementById('wlMonthBanner');
-  const overdue = getOverdueWishlistItems();
-  const dismissKey = 'wp_wl_banner_dismissed_' + TODAY.getFullYear() + '_' + TODAY.getMonth();
-
-  if (!banner) {
-    banner = document.createElement('div');
-    banner.id = 'wlMonthBanner';
-    // Insert after month-stats
-    const stats = document.getElementById('mStats');
-    if (stats && stats.parentNode) stats.parentNode.insertBefore(banner, stats.nextSibling);
-  }
-
-  if (overdue.length === 0 || localStorage.getItem(dismissKey)) {
-    banner.innerHTML = '';
-    return;
-  }
-
-  const names = overdue.slice(0, 2).map(w => w.title).join(', ') + (overdue.length > 2 ? ` และอีก ${overdue.length - 2}` : '');
-  banner.innerHTML = `
-    <div class="wl-banner">
-      <div class="wl-banner-icon">⏰</div>
-      <div class="wl-banner-body">
-        <div class="wl-banner-title">Wishlist ${overdue.length} รายการ ยังไม่ได้นัด</div>
-        <div class="wl-banner-sub">${names}</div>
-        <div class="wl-banner-btns">
-          <button class="wl-banner-btn-p" onclick="openSnoozeDialog()">จัดการเลย →</button>
-          <button class="wl-banner-btn-s" onclick="goWishlist()">ดู Wishlist</button>
-        </div>
-      </div>
-      <button class="wl-banner-close" onclick="dismissWlBanner()" title="ปิด">×</button>
-    </div>`;
-}
-
-function dismissWlBanner() {
-  const dismissKey = 'wp_wl_banner_dismissed_' + TODAY.getFullYear() + '_' + TODAY.getMonth();
-  localStorage.setItem(dismissKey, '1');
-  const banner = document.getElementById('wlMonthBanner');
-  if (banner) banner.innerHTML = '';
-}
-
-// ── Wishlist view render ──────────────────────────────────────
-function renderWishlist() {
-  const list = document.getElementById('wlList');
-  if (!list) return;
-
-  if (S.wishlist.length === 0) {
-    list.innerHTML = `
-      <div class="wl-empty">
-        <div class="ei">✦</div>
-        <p>ยังไม่มี wishlist<br>เพิ่มคนที่อยากเจอ สถานที่ที่อยากไป<br>หรือ appointment ที่ยังไม่ได้นัด</p>
-      </div>`;
-    return;
-  }
-
-  const overdue = S.wishlist.filter(w => !w.scheduledEventId && w.targetY != null && new Date(w.targetY, w.targetM, 1) <= new Date(TODAY.getFullYear(), TODAY.getMonth(), 1));
-  const upcoming = S.wishlist.filter(w => !w.scheduledEventId && (w.targetY == null || new Date(w.targetY, w.targetM, 1) > new Date(TODAY.getFullYear(), TODAY.getMonth(), 1)));
-  const done = S.wishlist.filter(w => !!w.scheduledEventId);
-
-  let html = '';
-
-  if (overdue.length > 0) {
-    html += `<div class="wl-section-hdr red">⚠ ยังรอ — target เดือนผ่านมาแล้ว (${overdue.length})</div>`;
-    html += overdue.map(w => renderWishlistCard(w, true)).join('');
-  }
-
-  if (upcoming.length > 0) {
-    html += `<div class="wl-section-hdr">อยากทำ / อยากนัด (${upcoming.length})</div>`;
-    html += upcoming.map(w => renderWishlistCard(w, false)).join('');
-  }
-
-  if (done.length > 0) {
-    html += `<div class="wl-section-hdr">นัดแล้ว ✓ (${done.length})</div>`;
-    html += done.map(w => renderWishlistCard(w, false)).join('');
-  }
-
-  list.innerHTML = `<div class="wl-list">${html}</div>`;
-}
-
-function renderWishlistCard(w, isOverdue) {
-  const tag = S.tags.find(t => t.id === w.tid);
-  const tc = tag ? tag.color : '#ccc';
-  const tagHtml = tag ? `<span class="mev-tag" style="background:${tc}20;color:${tc}">${tag.name}</span>` : '';
-
-  let monthChip = '';
-  if (w.scheduledEventId) {
-    monthChip = `<span class="wl-month-chip wl-chip-green">นัดแล้ว ✓</span>`;
-  } else if (w.targetY != null) {
-    const chipCls = isOverdue ? 'wl-chip-red' : 'wl-chip-blue';
-    const label = `${MONTHS3[w.targetM]} ${w.targetY}` + (isOverdue ? ' — เลยแล้ว' : '');
-    monthChip = `<span class="wl-month-chip ${chipCls}">${label}</span>`;
-  }
-
-  const rolledHtml = w.rolledFrom ? `<span class="wl-rolled-lbl">⟳ rolled from ${MONTHS3[w.rolledFrom.m]} ${w.rolledFrom.y}</span>` : '';
-
-  const cardCls = 'wl-item' + (isOverdue ? ' wl-overdue' : '') + (w.scheduledEventId ? ' wl-scheduled' : '');
-
-  let actionsHtml = '';
-  if (w.scheduledEventId) {
-    actionsHtml = `<div><span class="wl-scheduled-lnk" onclick="goMonth()">ดูใน calendar →</span></div>`;
-  } else if (isOverdue) {
-    actionsHtml = `
-      <div class="wl-item-actions">
-        <button class="wl-btn-p" onclick="openSnoozeForItem('${w.id}')">จัดการ →</button>
-        <button class="wl-btn-s" onclick="openWishlistEdit('${w.id}')">Edit</button>
-        <button class="wl-btn-d" onclick="deleteWishlistItem('${w.id}')">ลบ</button>
-      </div>`;
-  } else {
-    actionsHtml = `
-      <div class="wl-item-actions">
-        <button class="wl-btn-p" onclick="prefillEventFromWishlist('${w.id}')">สร้างนัด →</button>
-        <button class="wl-btn-s" onclick="openWishlistEdit('${w.id}')">Edit</button>
-        <button class="wl-btn-d" onclick="deleteWishlistItem('${w.id}')">ลบ</button>
-      </div>`;
-  }
-
-  return `<div class="${cardCls}">
-    <div class="wl-item-top">
-      <div class="wl-item-body">
-        <div class="wl-item-title${isOverdue ? ' wl-overdue-txt' : ''}">${w.title}</div>
-        <div class="wl-item-meta">${tagHtml}${monthChip}${rolledHtml}</div>
-        ${w.note ? `<div class="wl-note">${w.note}</div>` : ''}
-      </div>
-    </div>
-    ${actionsHtml}
-  </div>`;
-}
-
-// ── Wishlist add/edit modal ───────────────────────────────────
-function openWishlistAdd() {
-  S.wlEditId = null; S.wlTagId = null;
-  // Default target: next month
-  const nm = new Date(TODAY.getFullYear(), TODAY.getMonth() + 1, 1);
-  S.wlTargetY = nm.getFullYear(); S.wlTargetM = nm.getMonth();
-  document.getElementById('wlInTitle').value = '';
-  document.getElementById('wlInNote').value = '';
-  document.getElementById('wlAddTitle').textContent = 'New wishlist item';
-  buildWlTagPicker();
-  buildWlMonthPicker();
-  document.getElementById('wlAddOverlay').classList.add('show');
-  setTimeout(() => document.getElementById('wlInTitle').focus(), 220);
-}
-
-function openWishlistEdit(id) {
-  const w = S.wishlist.find(x => x.id === id); if (!w) return;
-  S.wlEditId = id; S.wlTagId = w.tid;
-  S.wlTargetY = w.targetY; S.wlTargetM = w.targetM;
-  document.getElementById('wlInTitle').value = w.title;
-  document.getElementById('wlInNote').value = w.note || '';
-  document.getElementById('wlAddTitle').textContent = 'Edit wishlist item';
-  buildWlTagPicker();
-  buildWlMonthPicker();
-  document.getElementById('wlAddOverlay').classList.add('show');
-}
-
-function closeWishlistAdd() { document.getElementById('wlAddOverlay').classList.remove('show'); }
-
-function buildWlTagPicker() {
-  document.getElementById('wlTagPicker').innerHTML =
-    S.tags.map(t => `<div class="tag-chip${S.wlTagId===t.id?' sel':''}" style="background:${t.color}20;color:${t.color};border-color:${S.wlTagId===t.id?t.color:'transparent'}" onclick="pickWlTag('${t.id}')">${t.name}</div>`).join('')
-    + `<div class="tag-chip new-tag" onclick="openTagModal()">+ New</div>`;
-}
-function pickWlTag(id) { S.wlTagId = S.wlTagId === id ? null : id; buildWlTagPicker(); }
-
-function buildWlMonthPicker() {
-  const months = [];
-  for (let i = 0; i < 12; i++) {
-    let m = TODAY.getMonth() + i, y = TODAY.getFullYear();
-    if (m > 11) { m -= 12; y++; }
-    months.push({ m, y });
-  }
-  const hint = document.getElementById('wlRemindHint');
-  document.getElementById('wlMonthPicker').innerHTML = months.map(({ m, y }) => {
-    const isSel = m === S.wlTargetM && y === S.wlTargetY;
-    const isPast = new Date(y, m, 1) < new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
-    return `<button class="wl-mg-btn${isSel ? ' sel' : ''}${isPast ? ' past' : ''}" onclick="pickWlMonth(${m},${y})">${MONTHS3[m]} ${y !== TODAY.getFullYear() ? y : ''}</button>`;
-  }).join('');
-  if (hint) {
-    hint.textContent = S.wlTargetM != null
-      ? `🔔 ถ้าถึง ${MONTHS[S.wlTargetM]} ${S.wlTargetY} แล้วยังไม่ได้สร้าง event จะ remind อัตโนมัติ`
-      : '';
-  }
-}
-function pickWlMonth(m, y) { S.wlTargetM = m; S.wlTargetY = y; buildWlMonthPicker(); }
-
-function saveWishlistItem() {
-  const title = document.getElementById('wlInTitle').value.trim();
-  if (!title) { document.getElementById('wlInTitle').focus(); return; }
-  const item = {
-    id: S.wlEditId || 'w' + Date.now(),
-    title,
-    tid: S.wlTagId,
-    targetM: S.wlTargetM,
-    targetY: S.wlTargetY,
-    note: document.getElementById('wlInNote').value.trim(),
-    rolledFrom: S.wlEditId ? (S.wishlist.find(x=>x.id===S.wlEditId)||{}).rolledFrom : null,
-    scheduledEventId: S.wlEditId ? (S.wishlist.find(x=>x.id===S.wlEditId)||{}).scheduledEventId : null,
-  };
-  if (S.wlEditId) {
-    const i = S.wishlist.findIndex(x => x.id === S.wlEditId); if (i >= 0) S.wishlist[i] = item;
-  } else {
-    S.wishlist.push(item);
-  }
-  persistWishlist(); closeWishlistAdd(); renderWishlist(); renderSidebar();
-}
-
-function deleteWishlistItem(id) {
-  if (!confirm('ลบ wishlist item นี้?')) return;
-  S.wishlist = S.wishlist.filter(x => x.id !== id);
-  persistWishlist(); renderWishlist(); renderSidebar();
-}
-
-// ── Create event prefilled from wishlist item ─────────────────
-function prefillEventFromWishlist(wid) {
-  const w = S.wishlist.find(x => x.id === wid); if (!w) return;
-  S.editId = null; S.onlyMe = true; S.people = []; S.isAD = false; S.tagId = w.tid || null;
-  // Default to next upcoming Saturday in target month
-  let targetDate = null;
-  if (w.targetY != null) {
-    const d = new Date(w.targetY, w.targetM, 1);
-    while (d.getDay() !== 6) d.setDate(d.getDate() + 1);
-    if (d.getMonth() === w.targetM) targetDate = ds(d);
-  }
-  S.formDate = targetDate || ds(new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate() + (6 - TODAY.getDay())));
-  document.getElementById('inTitle').value = w.title;
-  document.getElementById('inNote').value = w.note || '';
-  document.getElementById('inStart').value = '09:00';
-  document.getElementById('inEnd').value = '11:00';
-  document.getElementById('addTitle').textContent = 'New event from wishlist';
-  // Store wid so we can mark wishlist item as scheduled on save
-  S._pendingWishlistId = wid;
-  buildDayPicker(); syncTags(); syncAD(); syncOM();
-  document.getElementById('addOverlay').classList.add('show');
-  // close wishlist view and go to month so context is right
-  if (S.view === 'wishlist') goMonth();
-  setTimeout(() => document.getElementById('inTitle').focus(), 220);
-}
-
-// ── Snooze dialog (A3) ────────────────────────────────────────
-function openSnoozeDialog() {
-  // Queue all overdue items
-  const overdue = getOverdueWishlistItems();
-  if (overdue.length === 0) return;
-  S.snoozeQueue = overdue;
-  S.snoozeIdx = 0;
-  S.snoozeChoice = null;
-  S.snoozePickM = null;
-  renderSnoozeDialog();
-  document.getElementById('snoozeOverlay').classList.add('show');
-}
-
-function openSnoozeForItem(id) {
-  const w = S.wishlist.find(x => x.id === id); if (!w) return;
-  S.snoozeQueue = [w];
-  S.snoozeIdx = 0;
-  S.snoozeChoice = null;
-  S.snoozePickM = null;
-  renderSnoozeDialog();
-  document.getElementById('snoozeOverlay').classList.add('show');
-}
-
-function renderSnoozeDialog() {
-  const w = S.snoozeQueue[S.snoozeIdx]; if (!w) return;
-  const tag = S.tags.find(t => t.id === w.tid);
-  document.getElementById('snAvatar').textContent = tag ? '✦' : '✦';
-  if (tag) document.getElementById('snAvatar').style.background = tag.color + '30';
-  document.getElementById('snTitle').textContent = w.title;
-  document.getElementById('snSub').innerHTML = `<span style="background:#fee2e2;color:#dc2626;font-size:10px;padding:1px 7px;border-radius:4px;font-weight:600">${w.targetM!=null?MONTHS3[w.targetM]+' '+w.targetY:'ไม่มีกำหนด'} — target ที่ตั้งไว้</span>`;
-  document.getElementById('snCounter').textContent = `${S.snoozeIdx + 1} จาก ${S.snoozeQueue.length} items`;
-
-  // next month label
-  const nm = new Date(TODAY.getFullYear(), TODAY.getMonth() + 1, 1);
-  document.getElementById('snRollLbl').textContent = `เลื่อนไป ${MONTHS3[nm.getMonth()]} ${nm.getFullYear()}`;
-
-  // reset selection
-  S.snoozeChoice = null; S.snoozePickM = null; S.snoozePickY = null;
-  document.querySelectorAll('.sn-opt').forEach(el => el.classList.remove('sel'));
-  document.getElementById('snMonthPickerWrap').style.display = 'none';
-  document.getElementById('snConfirmBtn').textContent = 'ยืนยัน';
-}
-
-function snChoose(choice) {
-  S.snoozeChoice = choice;
-  document.querySelectorAll('.sn-opt').forEach(el => el.classList.remove('sel'));
-  const ids = { schedule:'snOptSchedule', roll:'snOptRoll', pick:'snOptPick', delete:'snOptDelete' };
-  const el = document.getElementById(ids[choice]); if (el) el.classList.add('sel');
-
-  const pickerWrap = document.getElementById('snMonthPickerWrap');
-  if (choice === 'pick') {
-    pickerWrap.style.display = '';
-    buildSnoozeMonthPicker();
-  } else {
-    pickerWrap.style.display = 'none';
-  }
-  const labels = { schedule:'สร้างนัด', roll:'เลื่อนเดือน', pick:'เลือกเดือนนี้', delete:'ลบ' };
-  document.getElementById('snConfirmBtn').textContent = labels[choice] || 'ยืนยัน';
-}
-
-function buildSnoozeMonthPicker() {
-  const months = [];
-  for (let i = 1; i <= 8; i++) {
-    let m = TODAY.getMonth() + i, y = TODAY.getFullYear();
-    if (m > 11) { m -= 12; y++; }
-    months.push({ m, y });
-  }
-  document.getElementById('snMonthPicker').innerHTML = months.map(({ m, y }) => {
-    const isSel = m === S.snoozePickM && y === S.snoozePickY;
-    return `<button class="sn-mp-btn${isSel ? ' sel' : ''}" onclick="pickSnoozeMonth(${m},${y})">${MONTHS3[m]} ${y !== TODAY.getFullYear() ? y : ''}</button>`;
-  }).join('');
-}
-function pickSnoozeMonth(m, y) { S.snoozePickM = m; S.snoozePickY = y; buildSnoozeMonthPicker(); }
-
-function snoozeConfirm() {
-  const w = S.snoozeQueue[S.snoozeIdx]; if (!w) return;
-  const choice = S.snoozeChoice;
-  if (!choice) { alert('กรุณาเลือก action ก่อน'); return; }
-
-  if (choice === 'schedule') {
-    document.getElementById('snoozeOverlay').classList.remove('show');
-    prefillEventFromWishlist(w.id);
-    return;
-  }
-
-  if (choice === 'roll') {
-    const nm = new Date(TODAY.getFullYear(), TODAY.getMonth() + 1, 1);
-    const idx = S.wishlist.findIndex(x => x.id === w.id);
-    if (idx >= 0) {
-      S.wishlist[idx] = { ...S.wishlist[idx], rolledFrom: { m: w.targetM, y: w.targetY }, targetM: nm.getMonth(), targetY: nm.getFullYear() };
-    }
-    persistWishlist();
-  }
-
-  if (choice === 'pick') {
-    if (S.snoozePickM == null) { alert('กรุณาเลือกเดือนก่อน'); return; }
-    const idx = S.wishlist.findIndex(x => x.id === w.id);
-    if (idx >= 0) {
-      S.wishlist[idx] = { ...S.wishlist[idx], rolledFrom: { m: w.targetM, y: w.targetY }, targetM: S.snoozePickM, targetY: S.snoozePickY };
-    }
-    persistWishlist();
-  }
-
-  if (choice === 'delete') {
-    S.wishlist = S.wishlist.filter(x => x.id !== w.id);
-    persistWishlist();
-  }
-
-  snoozeNext();
-}
-
-function snoozeSkip() { snoozeNext(); }
-
-function snoozeNext() {
-  S.snoozeIdx++;
-  if (S.snoozeIdx >= S.snoozeQueue.length) {
-    document.getElementById('snoozeOverlay').classList.remove('show');
-    renderSidebar();
-    if (S.view === 'wishlist') renderWishlist();
-    if (S.view === 'month') { renderWishlistBanner(); renderMonth(); }
-    return;
-  }
-  S.snoozeChoice = null; S.snoozePickM = null;
-  renderSnoozeDialog();
-}
-
-// ── Hook saveEvent to mark wishlist item as scheduled ─────────
-const _origSaveEvent = saveEvent;
-function saveEvent() {
-  const title = document.getElementById('inTitle').value.trim();
-  if (!title) { document.getElementById('inTitle').focus(); return; }
-  if (!S.formDate) { alert('Please pick a date'); return; }
-  const ev = {
-    id: S.editId || 'e' + Date.now(), title, tid: S.tagId, ds: S.formDate, isAD: S.isAD,
-    st: S.isAD ? null : document.getElementById('inStart').value,
-    et: S.isAD ? null : document.getElementById('inEnd').value,
-    onlyMe: S.onlyMe, ppl: [...S.people], note: document.getElementById('inNote').value.trim(),
-  };
-  if (S.editId) { const i = S.events.findIndex(e => e.id === S.editId); if (i >= 0) S.events[i] = ev; }
-  else S.events.push(ev);
-  // ── Mark wishlist item as scheduled ──
-  if (S._pendingWishlistId) {
-    const wi = S.wishlist.findIndex(x => x.id === S._pendingWishlistId);
-    if (wi >= 0) S.wishlist[wi] = { ...S.wishlist[wi], scheduledEventId: ev.id };
-    persistWishlist();
-    S._pendingWishlistId = null;
-  }
-  persist(); persistEvent(ev); closeAdd();
-  renderSidebar();
-  S.view === 'month' ? renderMonth() : S.view === 'week' ? renderWeek(S.wkDates) : renderWishlist();
-}
-
-// ── Auto-trigger snooze dialog on app load if overdue ─────────
-function checkAndTriggerSnooze() {
-  const overdue = getOverdueWishlistItems();
-  if (overdue.length === 0) return;
-  const triggerKey = 'wp_snooze_triggered_' + TODAY.getFullYear() + '_' + TODAY.getMonth();
-  if (localStorage.getItem(triggerKey)) return;
-  localStorage.setItem(triggerKey, '1');
-  // Slight delay so the app renders first
-  setTimeout(openSnoozeDialog, 900);
-}
-
-// ══════════════════════════════════════════════════════════════
-
 // ── Init ────────────────────────────────────────────
 function setBN(view) {
-  ['bnMonth','bnWeek','bnWishlist'].forEach(id => { const el=document.getElementById(id); if(el) el.className='bn-item'; });
-  const map = {month:'bnMonth', week:'bnWeek', wishlist:'bnWishlist'};
-  const t = map[view]; if (!t) return;
+  ['bnMonth','bnWeek'].forEach(id => { const el=document.getElementById(id); if(el) el.className='bn-item'; });
+  const t = view==='month'?'bnMonth':'bnWeek';
   const el = document.getElementById(t); if(el) el.className='bn-item active';
 }
-
-// ── Stats bar — collapse on user scroll, restore at top ──
-(function() {
-  let autoScrollY = 0; // position after auto-scroll, set by renderMonth
-  window._setStatsScrollBase = function(y) { autoScrollY = y; };
-
-  window.addEventListener('scroll', function() {
-    const stats = document.getElementById('mStats');
-    if (!stats) return;
-    if (S.view !== 'month') return;
-    // Only collapse if user has scrolled beyond the auto-scroll landing position
-    if (window.scrollY > autoScrollY + 10) {
-      stats.classList.add('is-collapsed');
-    } else {
-      stats.classList.remove('is-collapsed');
-    }
-  }, { passive: true });
-})();
-
 renderMonth();
 renderSidebar();
-loadWishlistLocal();
-checkAndTriggerSnooze();
 </script>
 
 <!-- ══ Firebase SDK (loaded at runtime — replace config below) ══ -->
@@ -1966,8 +1217,11 @@ import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, deleteDoc }
 // STEP 1: Paste your Firebase config here
 // (Firebase Console → Project Settings → Your apps → SDK setup)
 // ─────────────────────────────────────────────────────────────────
+// Firebase Web API keys are public by design — security is enforced by Firestore Rules.
+// See: https://firebase.google.com/docs/projects/api-keys
+// nosemgrep: generic.secrets.security.detected-google-api-key
 const firebaseConfig = {
-  apiKey:            "AIzaSyDuZVszvmK4lhPu-GxjCOtzXJ8iDYe6PB4",
+  apiKey:            "AIzaSyDuZVszvmK4lhPu-GxjCOtzXJ8iDYe6PB4", // noqa
   authDomain:        "weekend-planner-f3bbd.firebaseapp.com",
   projectId:         "weekend-planner-f3bbd",
   storageBucket:     "weekend-planner-f3bbd.firebasestorage.app",
@@ -1997,20 +1251,30 @@ if (firebaseConfig.apiKey === 'REPLACE_PLACEHOLDER_ONLY') {
   // Google sign-in
   const provider = new GoogleAuthProvider();
   window.WP_TRIGGER_LOGIN = async () => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     try {
-      if (isMobile) {
-        await signInWithRedirect(auth, provider); // redirect works better on mobile
-      } else {
-        await signInWithPopup(auth, provider);
-      }
+      // signInWithPopup works on both desktop and mobile when triggered by direct user tap
+      await signInWithPopup(auth, provider);
     } catch(e) {
-      if (e.code !== 'auth/popup-closed-by-user') alert('Sign in failed: ' + e.message);
+      if (e.code === 'auth/popup-blocked') {
+        // Fallback to redirect if popup was blocked
+        try {
+          await signInWithRedirect(auth, provider);
+        } catch(e2) {
+          alert('Sign in failed: ' + e2.message);
+        }
+      } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
+        alert('Sign in failed: ' + e.message);
+      }
     }
   };
 
   // Handle redirect result when returning from Google login on mobile
-  getRedirectResult(auth).catch(e => console.error('Redirect result error:', e));
+  // onAuthStateChanged will fire automatically after redirect — no extra handling needed
+  getRedirectResult(auth).catch(e => {
+    if (e.code !== 'auth/cancelled-popup-request') {
+      console.error('Redirect result error:', e.code, e.message);
+    }
+  });
 
   // Auth state listener
   onAuthStateChanged(auth, async (user) => {
@@ -2034,17 +1298,11 @@ if (firebaseConfig.apiKey === 'REPLACE_PLACEHOLDER_ONLY') {
       window._userUnsubscribe = onSnapshot(
         doc(db, 'users', user.uid),
         (snap) => {
-          if (snap.exists()) {
-            if (snap.data().tags) {
-              S.tags = snap.data().tags;
-            }
-            if (snap.data().wishlist) {
-              S.wishlist = snap.data().wishlist;
-            }
+          if (snap.exists() && snap.data().tags) {
+            S.tags = snap.data().tags;
             renderSidebar();
             if (S.view === 'month') renderMonth();
-            else if (S.view === 'week') renderWeek(S.wkDates);
-            else if (S.view === 'wishlist') renderWishlist();
+            else renderWeek(S.wkDates);
           }
         }
       );
@@ -2064,7 +1322,6 @@ if (firebaseConfig.apiKey === 'REPLACE_PLACEHOLDER_ONLY') {
 
       renderMonth();
       renderSidebar();
-      checkAndTriggerSnooze();
     } else {
       window.WP_USER = null;
       window.WP_UID  = null;
